@@ -12,20 +12,28 @@ set colorcolumn=80
 set ts=4
 set sts=4
 set sw=4
+set laststatus=2
+set statusline=%{GitBranch()}
+set autochdir
+
 highlight ColorColumn ctermbg=233
 let mapleader = "," 
+
 let g:NERDTreeWinPos = "right"
+
+let g:airline_left_sep=''
+let g:airline_right_sep=''
+let g:airline#extensions#tagbar#enabled = 1
+let g:airline#extensions#hunks#enabled = 1
+let g:airline#extensions#hunks#hunk_symbols = ['+', '~', '-']
+let g:airline_section_b = '%{fugitive#head()}'
+
 let g:pymode_breakpoint = 1
 let g:pymode_breakpoint_bind = '<leader>b'
 let g:pymode_breakpoint_cmd = 'import ipdb; ipdb.set_trace()'
-let g:pymode_rope = 1
-let g:pymode_rope_lookup_project = 1
-let g:pymode_rope_show_doc_bind = '<C-c>d'
-let g:pymode_rope_regenerate_on_write = 1
-let g:pymode_rope_completion = 1
-let g:pymode_rope_complete_on_dot = 1
-let g:pymode_rope_completion_bind = '<C-Space>'
-let g:pymode_rope_autoimport = 1
+
+let g:pymode_rope = 0
+
 let g:pymode_syntax_all = 1
 let g:pymode_syntax_print_as_function = 0
 let g:pymode_syntax_highlight_equal_operator = g:pymode_syntax_all

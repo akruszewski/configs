@@ -50,6 +50,8 @@ let g:pymode_syntax_builtin_types = g:pymode_syntax_all
 let g:pymode_syntax_highlight_exceptions = g:pymode_syntax_all
 let g:pymode_syntax_docstrings = g:pymode_syntax_all
 
+set runtimepath^=~/.vim/bundle/ctrlp.vim
+
 colorscheme molokai
 
 
@@ -83,6 +85,7 @@ autocmd BufRead,BufNewFile *.zcml :set ft=xml
 map <Leader>t :NERDTreeTabsToggle<CR>
 map <F11> <Esc>:call ToggleGUICruft()<cr>
 map <Leader>s :PymodeLint<cr>
+nmap <F8> :TagbarToggle<CR> 
 
 noremap <C-n> :nohl<CR>
 vnoremap <C-n> :nohl<CR>

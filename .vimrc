@@ -1,59 +1,138 @@
-call pathogen#infect()
-call pathogen#helptags()
-autocmd! bufwritepost .vimrc source %
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" basic configuration
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set nocompatible              " be iMproved, required
+filetype off                  " required
 
-syntax on
-filetype off
-filetype plugin indent on
-
-" set guioptions = 1 " by default, hide gui menus
 set number
 set colorcolumn=80
 set ts=4
 set sts=4
 set sw=4
 set laststatus=2
-set statusline=%{GitBranch()}
+set expandtab
 set autochdir
 
-highlight ColorColumn ctermbg=233
-let mapleader = "," 
+set relativenumber
+set number
 
-let g:NERDTreeWinPos = "right"
+set wildchar=<Tab> wildmenu wildmode=full
 
-let g:airline_left_sep=''
-let g:airline_right_sep=''
-let g:airline#extensions#tagbar#enabled = 1
-let g:airline#extensions#hunks#enabled = 1
-let g:airline#extensions#hunks#hunk_symbols = ['+', '~', '-']
-let g:airline_section_b = '%{fugitive#head()}'
+highlight ColorColumn ctermbg=115
+let mapleader = ","
 
-let g:pymode_breakpoint = 1
-let g:pymode_breakpoint_bind = '<leader>b'
-let g:pymode_breakpoint_cmd = 'import ipdb; ipdb.set_trace()'
+autocmd Filetype html setlocal ts=4 sw=4 expandtab
 
-let g:pymode_rope = 0
+"support for syntax higligting in some filetypes
+autocmd BufRead,BufNewFile *.nxml :set ft=xml
+autocmd BufRead,BufNewFile *.zcml :set ft=xml
 
-let g:pymode_syntax_all = 1
-let g:pymode_syntax_print_as_function = 0
-let g:pymode_syntax_highlight_equal_operator = g:pymode_syntax_all
-let g:pymode_syntax_highlight_stars_operator = g:pymode_syntax_all
-let g:pymode_syntax_highlight_self = g:pymode_syntax_all
-let g:pymode_syntax_indent_errors = g:pymode_syntax_all
-let g:pymode_syntax_space_errors = g:pymode_syntax_all
-let g:pymode_syntax_string_formatting = g:pymode_syntax_all
-let g:pymode_syntax_string_format = g:pymode_syntax_all
-let g:pymode_syntax_string_templates = g:pymode_syntax_all
-let g:pymode_syntax_doctests = g:pymode_syntax_all
-let g:pymode_syntax_builtin_objs = g:pymode_syntax_all
-let g:pymode_syntax_builtin_types = g:pymode_syntax_all
-let g:pymode_syntax_highlight_exceptions = g:pymode_syntax_all
-let g:pymode_syntax_docstrings = g:pymode_syntax_all
 
-set runtimepath^=~/.vim/bundle/ctrlp.vim
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Plugins repos
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-colorscheme molokai
+" set the runtime path to include Vundle and initialize
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
 
+" start vundle plugin list
+
+" let Vundle manage Vundle, required
+Plugin 'VundleVim/Vundle.vim'
+
+
+"""""""
+" coding related
+"""""""
+
+" Auto completition
+Plugin 'Valloric/YouCompleteMe'
+
+" snippets
+Plugin 'SirVer/ultisnips'
+
+" snippets library
+Plugin 'honza/vim-snippets'
+
+" show structure of the code
+Plugin 'https://github.com/majutsushi/tagbar.git'
+
+" braces
+Plugin 'git://github.com/jiangmiao/auto-pairs.git'
+Plugin 'tpope/vim-surround'
+
+" syntax checking
+Plugin 'scrooloose/syntastic'
+
+" Python plugins
+Plugin 'nvie/vim-flake8'
+
+" html from pseudo css selector. Awsome! ex. div.foo>div.bar>input#baz <c-y>,
+Plugin 'mattn/emmet-vim'
+
+" show indentation
+Plugin 'https://github.com/Yggdroot/indentLine'
+
+"""""""
+" colorschemes
+"""""""
+Plugin 'chriskempson/base16-vim'
+Plugin 'wimstefan/Lightning'
+Plugin 'NLKNguyen/papercolor-theme'
+Plugin 'https://github.com/alexjgriffin/sprinkles'
+
+
+"""""""
+" various
+"""""""
+
+" easy motions, example: <leader><leader>w
+Plugin 'easymotion/vim-easymotion'
+
+" File browser <leader>t
+Plugin 'scrooloose/nerdtree'
+Plugin 'jistr/vim-nerdtree-tabs'
+
+" Fuzzy search <3
+Plugin 'https://github.com/kien/ctrlp.vim'
+
+" better buff explorer
+Plugin 'https://github.com/jlanzarotta/bufexplorer.git'
+
+" git plugin
+Plugin 'tpope/vim-fugitive'
+
+" Wiki
+Plugin 'https://github.com/vimwiki/vimwiki.git'
+
+" biutify reading
+Plugin 'junegunn/goyo.vim'
+
+" move visual blocks of code
+Plugin 'https://github.com/gavinbeatty/dragvisuals.vim'
+
+" undo tree visualisation
+Plugin 'sjl/gundo.vim'
+
+" Multiple cursors
+Plugin 'terryma/vim-multiple-cursors'
+
+
+" All of your Plugins must be added before the following line
+call vundle#end()            " required
+filetype plugin indent on    " required
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" colorscheme
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+colorscheme PaperColor 
+set background=dark
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Custom functions
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " function for toggle bars in gui mode
 function! ToggleGUICruft()
@@ -75,21 +154,29 @@ function! NumberToggle()
 endfunc
 
 
-"support for syntax higligting in some filetypes
-autocmd BufRead,BufNewFile *.nxml :set ft=xml
-autocmd BufRead,BufNewFile *.zcml :set ft=xml
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" plugins configuration
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:ycm_autoclose_preview_window_after_completion=1
+map <leader>g  :YcmCompleter GoToDefinitionElseDeclaration<CR>
 
+let g:NERDTreeWinPos = "right"
 
+if executable('ag')
+  " Use Ag over Grep
+  set grepprg=ag\ --nogroup\ --nocolor
 
-"keys
-map <Leader>t :NERDTreeTabsToggle<CR>
-map <F11> <Esc>:call ToggleGUICruft()<cr>
-map <Leader>s :PymodeLint<cr>
-nmap <F8> :TagbarToggle<CR> 
+  " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
+  let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+endif
 
-noremap <C-n> :nohl<CR>
-vnoremap <C-n> :nohl<CR>
-inoremap <C-n> :nohl<CR>
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" keys
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+"noremap <C-n> :nohl<CR>
+"vnoremap <C-n> :nohl<CR>
+"inoremap <C-n> :nohl<CR>
 
 noremap <Leader>e :quit<CR>
 noremap <Leader>E :qa!<CR>
@@ -105,5 +192,30 @@ map <Leader>m <esc>:tabnext<CR>
 vnoremap < <gv
 vnoremap > >gv
 
+" plugins keys
+map <Leader>t :NERDTreeTabsToggle<CR>
+map <F11> <Esc>:call ToggleGUICruft()<cr>
+nmap <F8> :TagbarToggle<CR> 
+nmap <F8> :TagbarToggle<CR>
+nnoremap <F5> :GundoToggle<CR>
+" nnoremap <C-n> :call NumberToggle()<cr>
 
-nnoremap <C-n> :call NumberToggle()<cr>
+
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Python related
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+let python_highlight_all = 1
+" au BufRead,BufNewFile *.py,*.pyw,*.c,*.h match BadWhitespace /\s\+$/ " this one is also c related
+
+"python with virtualenv support
+py << EOF
+import os
+import sys
+if 'VIRTUAL_ENV' in os.environ:
+  project_base_dir = os.environ['VIRTUAL_ENV']
+  activate_this = os.path.join(project_base_dir, 'bin/activate_this.py')
+  execfile(activate_this, dict(__file__=activate_this))
+EOF
